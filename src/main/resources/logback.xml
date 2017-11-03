@@ -1,0 +1,17 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%-5level %logger{36} %d{HH:mm:ss.SSS} [%thread]  - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Log levels available OFF, ERROR, WARN, INFO, DEBUG, TRACE and ALL. -->
+    <!--<logger name="org.mongodb.driver.cluster" level="INFO" /> -->
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
