@@ -1,7 +1,7 @@
 package org.routeParts
 
 import akka.http.scaladsl.model.StatusCodes.PermanentRedirect
-import org.webServer.WebServicePart
+import org.webService.WebServicePart
 import org.helpers.AppSettings._
 
 object HelpFromFiles extends WebServicePart {

@@ -1,4 +1,4 @@
-package org.webServer
+package org.webService
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http

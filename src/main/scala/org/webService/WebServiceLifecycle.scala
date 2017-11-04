@@ -1,4 +1,4 @@
-package org.webServer
+package org.webService
 
 trait WebServiceLifecycle {
 

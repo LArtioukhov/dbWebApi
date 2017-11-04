@@ -1,4 +1,4 @@
-package org.webServer
+package org.webService
 
 import akka.http.scaladsl.server.{Directives, Route}
 
