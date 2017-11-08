@@ -1,11 +1,11 @@
-package org.webService
+package org.lart.webService
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.stream.ActorMaterializer
-import org.helpers.AppSettings
 import org.helpers.AppSettings._
+import org.lart.helpers.AppSettings
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 

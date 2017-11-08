@@ -1,4 +1,4 @@
-package org.webService
+package org.lart.webService
 
 class WebServiceDaemon extends AbstractWebServiceDaemon {
 

@@ -1,4 +1,4 @@
-package org.webService
+package org.lart.webService
 
 import org.apache.commons.daemon.{Daemon, DaemonContext}
 

@@ -1,4 +1,4 @@
-package org.helpers
+package org.lart.helpers
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.Logger

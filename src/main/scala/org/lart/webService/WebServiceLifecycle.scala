@@ -1,4 +1,4 @@
-package org.webService
+package org.lart.webService
 
 trait WebServiceLifecycle {
 

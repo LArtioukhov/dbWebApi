@@ -1,8 +1,8 @@
-package org.webService
+package org.lart.webService
 
 import akka.http.scaladsl.server.Route
-import org.helpers.AppSettings._
-import org.routeParts.HelpFromFiles
+import org.lart.helpers.AppSettings._
+import org.lart.routeParts.HelpFromFiles
 
 /**
   * Singleton object for initialization

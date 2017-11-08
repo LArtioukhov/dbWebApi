@@ -1,10 +1,10 @@
 package org
 
-import org.webService.WebServiceDaemon
+import lart.webService.WebServiceDaemon
 
 /** *
   * Needed only for run from IDE.
-  * Real start class org.webService.WebServiceDaemon
+  * Real start class WebServiceDaemon
   * */
 object Main extends App {
 

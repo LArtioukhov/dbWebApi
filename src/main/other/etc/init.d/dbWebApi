@@ -32,7 +32,7 @@ DAEMON_USER=webserviceuser
 APP_CONFIG=/etc/${APP}.conf
 APP_HOME=/opt/${ORG}/${APP}
 APP_CLASSPATH=$APP_HOME/${APP}_${APP_VERSION}_${SCALA_VERSION}.jar
-APP_CLASS=org.webService.WebServiceDaemon
+APP_CLASS=org.lart.webService.WebServiceDaemon
 
 if [ -n "$APP_LOG_CONFIG" ]; then
         JAVA_OPTS="-Dlogback.configurationFile=${APP_LOG_CONFIG} ${JAVA_OPTS}"
