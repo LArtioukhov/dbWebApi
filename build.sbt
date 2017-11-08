@@ -1,4 +1,4 @@
-name := "webService"
+name := "dbWebApi"
 
 version := "0.0.1"
 

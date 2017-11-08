@@ -1,14 +1,14 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          webService
+# Provides:          dbWebApi
 # Required-Start:    $local_fs $remote_fs $network
 # Required-Stop:     $local_fs $remote_fs $network
 # Should-Start:      $named
 # Should-Stop:       $named
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Control webService
-# Description:       Control the webService daemon.
+# Short-Description: Control dbWebApi
+# Description:       Control the dbWebApi daemon.
 ### END INIT INFO
 
 set -e
@@ -18,7 +18,7 @@ if [ -z "${JAVA_HOME}" ]; then
 fi
 JAVA_OPTS="-Xms512m -Xmx1024m"
 
-APP=webService
+APP=dbWebApi
 ORG=org
 APP_VERSION=0.0.1
 SCALA_VERSION="2.12.4"
