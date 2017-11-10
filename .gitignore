@@ -23,9 +23,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-Будет удалено .gitignore
-Будет удалено .idea/
-Будет удалено project/project/
-Будет удалено project/target/
-Будет удалено target/
+.idea/
+project/project/
+target/
 
