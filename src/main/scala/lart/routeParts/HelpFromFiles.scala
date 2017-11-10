@@ -13,7 +13,6 @@ object HelpFromFiles extends WebServicePart {
       } ~ path("helpHttp" / Segment) { name ⇒
         getFromResource(s"helpHttp/$name")
       } ~ pathSingleSlash {
-        //getFromResource("helpHttp/index.html")
         redirect("helpHttp/index.html", PermanentRedirect)
       }
     }
