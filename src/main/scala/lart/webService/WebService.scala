@@ -39,6 +39,7 @@ object WebService extends WebServiceLifecycle {
       started = false
       http.shutdownAllConnectionPools()
       bindingFuture.flatMap(_.unbind()).onComplete(_ ⇒ system.terminate())
+      appLogger.info(s"Web service $webServiceName stopped")
     }
   }
 

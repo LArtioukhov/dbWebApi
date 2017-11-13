@@ -5,7 +5,9 @@ import lart.helpers.AppSettings._
 
 class MongoDBConnector(host: String, port: Int) {
 
-  private val client             = MongoClient(connString).getDatabase(mongoDBSettings.dataBaseName)
+  private val client: MongoDatabase =
+    MongoClient(connString).getDatabase(mongoDBSettings.dataBaseName)
+
   private def connString: String = s"mongodb://${mongoDBSettings.host}:${mongoDBSettings.port}"
 
   def getCollection(collName: String): MongoCollection[Document] = client.getCollection(collName)

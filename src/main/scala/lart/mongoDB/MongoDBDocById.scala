@@ -5,8 +5,7 @@ import org.bson.types.ObjectId
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.{Document, MongoCollection}
 
-class MongoDBDocById(val collection: MongoCollection[Document],
-                     override val id: String)
+class MongoDBDocById(val collection: MongoCollection[Document], override val id: String)
     extends DBDocByIdRequest {
 
   /**
@@ -21,4 +20,10 @@ class MongoDBDocById(val collection: MongoCollection[Document],
       .map(_.toJson())
       .toFuture()
   }
+}
+
+object MongoDBDocById {
+
+  def apply(collection: MongoCollection[Document], id: String): MongoDBDocById =
+    new MongoDBDocById(collection, id)
 }

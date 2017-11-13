@@ -11,6 +11,7 @@ import lart.helpers.AppSettings._
 object WebServiceInit {
 
   appLogger.debug(s"Starting Web service $appName initialization")
+
   val route: Route =
     HelpFromFiles.route
   // Add your web routes here
