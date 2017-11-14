@@ -2,21 +2,18 @@ package lart.dbPrimitives
 
 import scala.concurrent.Future
 
-trait DBDocByIdRequest extends DBRequest {
+trait DBUpdateDoc extends DBRequest {
 
   val id: String
+  val doc: String
 
-  /**
-    * Must return only one document
-    *
-    * @return
-    */
-  def getDocById: Future[Seq[String]]
+  def updateDoc: Future[Long]
 
   override def requestResult: Future[String] = {
     import lart.webService.WebService.executionContext
+    val doc = updateDoc
     for {
-      doc <- getDocById
-    } yield doc.mkString
+      r1 ← doc
+    } yield """{"updated":""" + r1 + "}"
   }
 }

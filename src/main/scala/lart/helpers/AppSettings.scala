@@ -11,7 +11,7 @@ object AppSettings {
   case class MongoDBSettings(host: String,
                              port: Int,
                              dataBaseName: String,
-                             collections: Set[String])
+                             collections: List[String])
 
   lazy val appLogger = Logger(LoggerFactory.getLogger(appName))
 
@@ -24,6 +24,6 @@ object AppSettings {
     host = settings getString "mongoDB.host",
     port = settings getInt "mongoDB.port",
     dataBaseName = settings getString "mongoDB.dataBaseName",
-    collections = (settings getStringList "mongoDB.collections").asScala.toSet
+    collections = settings.getStringList("mongoDB.collections").asScala.toList
   )
 }

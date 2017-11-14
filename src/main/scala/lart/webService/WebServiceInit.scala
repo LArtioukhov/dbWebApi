@@ -1,9 +1,10 @@
 package lart.webService
 
 import akka.http.scaladsl.server.Route
-import lart.routeParts.HelpFromFiles
-
+import akka.http.scaladsl.server.Directives._
+import lart.routeParts.{DocCollection, HelpFromFiles}
 import lart.helpers.AppSettings._
+import lart.mongoDB.{MongoDBCollectionConnector, MongoDBConnector}
 
 /**
   * Singleton object for initialization
@@ -11,11 +12,20 @@ import lart.helpers.AppSettings._
 object WebServiceInit {
 
   appLogger.debug(s"Starting Web service $appName initialization")
+
   val route: Route =
-    HelpFromFiles.route
-  // Add your web routes here
-  //~ [T extends WebServicePart].route
+    mongoInit(HelpFromFiles.route)
 
   appLogger.debug(s"Web service $appName initialization completed successfully")
+
+  def mongoInit(startRoute: Route): Route = {
+    def getRoute(str: String): Route = {
+      DocCollection(
+        MongoDBCollectionConnector(
+          MongoDBConnector(mongoDBSettings.host, mongoDBSettings.port)
+            .getCollection(str))).RouteGenerator
+    }
+    mongoDBSettings.collections.foldRight(startRoute)(getRoute(_) ~ _)
+  }
 
 }
