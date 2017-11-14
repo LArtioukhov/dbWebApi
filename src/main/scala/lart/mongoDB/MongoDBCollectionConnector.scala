@@ -17,8 +17,15 @@ class MongoDBCollectionConnector(val collection: MongoCollection[Document])
 
   override def docById(id: String): Future[String] = MongoDBDocById(collection, id).requestResult
 
-  override def updateDoc(id: String, doc4Update: String) = ???
+  override def updateDoc(id: String, doc4Update: String) =
+    MongoDBUpdateDoc(collection, id, doc4Update).requestResult
 
   override def deleteDoc(id: String): Future[String] =
     MongoDBDeleteDoc(collection, id).requestResult
+}
+
+object MongoDBCollectionConnector {
+
+  def apply(collection: MongoCollection[Document]): MongoDBCollectionConnector =
+    new MongoDBCollectionConnector(collection)
 }

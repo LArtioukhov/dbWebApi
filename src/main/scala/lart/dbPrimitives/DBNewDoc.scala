@@ -13,6 +13,6 @@ trait DBNewDoc extends DBRequest {
     val newDoc = insertDoc
     for {
       r1 ← newDoc
-    } yield r1
+    } yield """{ "result":"""" + r1 + """" }"""
   }
 }

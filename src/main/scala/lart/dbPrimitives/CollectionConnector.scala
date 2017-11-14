@@ -6,11 +6,11 @@ import scala.concurrent.Future
   * Коннектор к конкретной коллекции
   *
   * Должны генерироваться запросы для получения
-  *   - создание документа
-  *   - списка документов  [[DBDocListRequest]]
-  *   - документа по его id [[DBDocByIdRequest]]
+  *   - создание документа             [[DBNewDoc]]
+  *   - списка документов              [[DBDocListRequest]]
+  *   - документа по его id            [[DBDocByIdRequest]]
   *   - обновление/изменение документа
-  *   - удаление документа
+  *   - удаление документа             [[DBDeleteDoc]]
   */
 trait CollectionConnector {
 

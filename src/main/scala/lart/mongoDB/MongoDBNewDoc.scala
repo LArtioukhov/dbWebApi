@@ -9,7 +9,8 @@ class MongoDBNewDoc(val collection: MongoCollection[Document], override val doc:
     extends DBNewDoc {
 
   override def insertDoc: Future[String] = {
-    collection.insertOne(Document(doc)).map("""{result:"""" + _.toString() + """"}""").head()
+    import lart.webService.WebService.executionContext
+    collection.insertOne(Document(doc)).head().map(_.toString())
   }
 }
 

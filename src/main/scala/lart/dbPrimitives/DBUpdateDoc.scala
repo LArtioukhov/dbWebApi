@@ -2,17 +2,18 @@ package lart.dbPrimitives
 
 import scala.concurrent.Future
 
-trait DBDeleteDoc extends DBRequest {
+trait DBUpdateDoc extends DBRequest {
 
   val id: String
+  val doc: String
 
-  def deleteResult: Future[Long]
+  def updateDoc: Future[Long]
 
   override def requestResult: Future[String] = {
     import lart.webService.WebService.executionContext
-    val count = deleteResult
+    val doc = updateDoc
     for {
-      r1 ← count
-    } yield """{"deleted":""" + r1 + "}"
+      r1 ← doc
+    } yield """{"updated":""" + r1 + "}"
   }
 }

@@ -25,29 +25,31 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
 
   override def RouteGenerator: Route =
     path(collectionConnector.collectionName) {
-      parameters('sP.as[Int] ? 0, 'aP.as[Int] ? 40, 'fltr.as[String]) { (sP, aP, fltr) ⇒
+      parameters('sP.as[Int] ? 0, 'aP.as[Int] ? 40, 'fltr.as[String] ? "{}") { (sP, aP, fltr) ⇒
         get { //get list of documents
           dbResponseProcessing(collectionConnector.docList(sP, aP, fltr))
         } ~ post { // create new document
           entity(as[String]) { newDocString ⇒
             dbResponseProcessing(collectionConnector.newDoc(newDocString))
           }
-        } ~ (put | delete) {
-          methodNotAllowed
-        }
+        } ~ (put | delete) { methodNotAllowed }
       }
     } ~ path(collectionConnector.collectionName / Segment) { id ⇒
       get { //get document by Id
         dbResponseProcessing(collectionConnector.docById(id))
       } ~ put { //update document
-        entity(as[String]) { doc4Update ⇒
-          dbResponseProcessing(collectionConnector.updateDoc(id, doc4Update))
+        entity(as[String]) { doc ⇒
+          dbResponseProcessing(collectionConnector.updateDoc(id, doc))
         }
       } ~ delete { //delete document by Id
         dbResponseProcessing(collectionConnector.deleteDoc(id))
-      } ~ post {
-        methodNotAllowed
-      }
+      } ~ post { methodNotAllowed }
     }
 
+}
+
+object DocCollection {
+
+  def apply(collectionConnector: CollectionConnector): DocCollection =
+    new DocCollection(collectionConnector)
 }

@@ -7,7 +7,7 @@ trait DBDocByIdRequest extends DBRequest {
   val id: String
 
   /**
-    * Must return only one string
+    * Must return only one document
     *
     * @return
     */
@@ -17,6 +17,6 @@ trait DBDocByIdRequest extends DBRequest {
     import lart.webService.WebService.executionContext
     for {
       doc <- getDocById
-    } yield doc.mkString("")
+    } yield doc.mkString
   }
 }
