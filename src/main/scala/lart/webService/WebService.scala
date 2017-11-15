@@ -1,10 +1,11 @@
 package lart.webService
 
+import scala.concurrent.Future
+
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
 import akka.http.scaladsl.{Http, HttpExt}
-import lart.appSettings._
 
-import scala.concurrent.Future
+import lart.appSettings._
 
 object WebService extends WebServiceLifecycle {
 
