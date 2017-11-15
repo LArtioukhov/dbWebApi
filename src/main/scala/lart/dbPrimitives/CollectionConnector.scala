@@ -9,7 +9,7 @@ import scala.concurrent.Future
   *   - создание документа             [[DBNewDoc]]
   *   - списка документов              [[DBDocListRequest]]
   *   - документа по его id            [[DBDocByIdRequest]]
-  *   - обновление/изменение документа
+  *   - обновление/изменение документа [[DBUpdateDoc]]
   *   - удаление документа             [[DBDeleteDoc]]
   */
 trait CollectionConnector {
