@@ -15,8 +15,6 @@ package object appSettings {
                              dataBaseName: String,
                              collections: List[String])
 
-  lazy val appLogger = Logger(LoggerFactory.getLogger(appName))
-
   private val settings         = ConfigFactory.load()
   lazy val appName: String     = settings getString "webService.appName"
   lazy val defaultHost: String = settings getString "webService.host"
@@ -27,6 +25,8 @@ package object appSettings {
     dataBaseName = settings getString "mongoDB.dataBaseName",
     collections = settings.getStringList("mongoDB.collections").asScala.toList
   )
+
+  lazy val appLogger = Logger(LoggerFactory.getLogger(appName))
 
   implicit val system: ActorSystem                        = ActorSystem(appName)
   implicit val materializer: ActorMaterializer            = ActorMaterializer()
