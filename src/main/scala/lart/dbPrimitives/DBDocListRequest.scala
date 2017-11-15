@@ -2,6 +2,8 @@ package lart.dbPrimitives
 
 import scala.concurrent.Future
 
+import lart.appSettings._
+
 trait DBDocListRequest extends DBRequest {
 
   val startPosition: Int
@@ -13,7 +15,6 @@ trait DBDocListRequest extends DBRequest {
   def getList: Future[Seq[String]]
 
   override def requestResult: Future[String] = {
-    import lart.webService.WebService.executionContext
     val count     = getTotalCount
     val documents = getList
     for {

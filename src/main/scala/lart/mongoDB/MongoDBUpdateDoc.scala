@@ -1,11 +1,13 @@
 package lart.mongoDB
 
-import lart.dbPrimitives.DBUpdateDoc
+import scala.concurrent.Future
+
 import org.bson.types.ObjectId
 import org.mongodb.scala.model.Filters
 import org.mongodb.scala.{Document, MongoCollection}
 
-import scala.concurrent.Future
+import lart.dbPrimitives.DBUpdateDoc
+import lart.appSettings._
 
 class MongoDBUpdateDoc(val collection: MongoCollection[Document],
                        override val id: String,
@@ -13,7 +15,6 @@ class MongoDBUpdateDoc(val collection: MongoCollection[Document],
     extends DBUpdateDoc {
 
   override def updateDoc: Future[Long] = {
-    import lart.webService.WebService.executionContext
     collection
       .replaceOne(Filters.equal("_id", new ObjectId(id)), Document(doc))
       .head()

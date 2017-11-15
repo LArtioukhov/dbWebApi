@@ -2,7 +2,8 @@ package lart.routeParts
 
 import akka.http.scaladsl.model.StatusCodes.PermanentRedirect
 import lart.webService.WebServicePart
-import lart.helpers.AppSettings._
+
+import lart.appSettings._
 
 object HelpFromFiles extends WebServicePart {
 

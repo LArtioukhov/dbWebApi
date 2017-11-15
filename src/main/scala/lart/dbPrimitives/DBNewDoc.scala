@@ -2,6 +2,8 @@ package lart.dbPrimitives
 
 import scala.concurrent.Future
 
+import lart.appSettings._
+
 trait DBNewDoc extends DBRequest {
 
   val doc: String
@@ -9,7 +11,6 @@ trait DBNewDoc extends DBRequest {
   def insertDoc: Future[String]
 
   override def requestResult: Future[String] = {
-    import lart.webService.WebService.executionContext
     val newDoc = insertDoc
     for {
       r1 ← newDoc

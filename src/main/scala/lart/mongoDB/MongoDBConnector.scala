@@ -1,7 +1,8 @@
 package lart.mongoDB
 
-import org.mongodb.scala.{Document, MongoClient, MongoCollection, MongoDatabase}
-import lart.helpers.AppSettings._
+import org.mongodb.scala._
+
+import lart.appSettings._
 
 class MongoDBConnector(host: String, port: Int) {
 

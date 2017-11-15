@@ -2,6 +2,8 @@ package lart.dbPrimitives
 
 import scala.concurrent.Future
 
+import lart.appSettings._
+
 trait DBDocByIdRequest extends DBRequest {
 
   val id: String
@@ -14,7 +16,6 @@ trait DBDocByIdRequest extends DBRequest {
   def getDocById: Future[Seq[String]]
 
   override def requestResult: Future[String] = {
-    import lart.webService.WebService.executionContext
     for {
       doc <- getDocById
     } yield doc.mkString
