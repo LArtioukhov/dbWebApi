@@ -3,8 +3,9 @@ package lart.webService
 import akka.http.scaladsl.server.Route
 import akka.http.scaladsl.server.Directives._
 import lart.routeParts.{DocCollection, HelpFromFiles}
-import lart.helpers.AppSettings._
 import lart.mongoDB.{MongoDBCollectionConnector, MongoDBConnector}
+
+import lart.appSettings._
 
 /**
   * Singleton object for initialization

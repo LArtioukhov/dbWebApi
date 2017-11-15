@@ -1,14 +1,15 @@
 package lart.routeParts
 
 import akka.http.scaladsl.model._
-import lart.webService.WebServicePart
 import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Route
-import lart.dbPrimitives.CollectionConnector
-import lart.helpers.AppSettings._
 
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
+
+import lart.appSettings._
+import lart.webService.WebServicePart
+import lart.dbPrimitives.CollectionConnector
 
 class DocCollection(collectionConnector: CollectionConnector) extends WebServicePart {
 

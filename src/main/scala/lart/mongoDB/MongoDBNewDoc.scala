@@ -1,15 +1,16 @@
 package lart.mongoDB
 
-import lart.dbPrimitives.DBNewDoc
+import scala.concurrent.Future
+
 import org.mongodb.scala.{Document, MongoCollection}
 
-import scala.concurrent.Future
+import lart.appSettings._
+import lart.dbPrimitives.DBNewDoc
 
 class MongoDBNewDoc(val collection: MongoCollection[Document], override val doc: String)
     extends DBNewDoc {
 
   override def insertDoc: Future[String] = {
-    import lart.webService.WebService.executionContext
     collection.insertOne(Document(doc)).head().map(_.toString())
   }
 }

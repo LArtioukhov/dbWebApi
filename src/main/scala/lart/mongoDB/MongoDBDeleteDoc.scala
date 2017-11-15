@@ -1,17 +1,18 @@
 package lart.mongoDB
 
-import lart.dbPrimitives.DBDeleteDoc
+import scala.concurrent.Future
+
 import org.bson.types.ObjectId
 import org.mongodb.scala.model.Filters.equal
 import org.mongodb.scala.{Document, MongoCollection}
 
-import scala.concurrent.Future
+import lart.appSettings._
+import lart.dbPrimitives.DBDeleteDoc
 
 class MongoDBDeleteDoc(val collection: MongoCollection[Document], override val id: String)
     extends DBDeleteDoc {
 
   override def deleteResult: Future[Long] = {
-    import lart.webService.WebService.executionContext
     collection.deleteOne(equal("_id", new ObjectId(id))).head().map(_.getDeletedCount)
   }
 }
