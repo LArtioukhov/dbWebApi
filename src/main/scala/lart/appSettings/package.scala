@@ -1,15 +1,16 @@
 package lart
 
 import akka.actor.ActorSystem
+import akka.http.scaladsl.{Http, HttpExt}
 import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.Logger
-import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContextExecutor
 
 package object appSettings {
+
   case class MongoDBSettings(host: String,
                              port: Int,
                              dataBaseName: String,
@@ -26,10 +27,11 @@ package object appSettings {
     collections = settings.getStringList("mongoDB.collections").asScala.toList
   )
 
-  lazy val appLogger = Logger(LoggerFactory.getLogger(appName))
+  lazy val appLogger = Logger(appName)
 
-  implicit val system: ActorSystem                        = ActorSystem(appName)
-  implicit val materializer: ActorMaterializer            = ActorMaterializer()
-  implicit val executionContext: ExecutionContextExecutor = system.dispatcher
+  implicit val actorSystem: ActorSystem                           = ActorSystem(appName)
+  implicit val actorMaterializer: ActorMaterializer               = ActorMaterializer()
+  implicit val executionContextExecutor: ExecutionContextExecutor = actorSystem.dispatcher
+  implicit val httpExt: HttpExt                                   = Http(actorSystem)
 
 }

@@ -27,7 +27,7 @@ PID=/var/run/${APP}.pid
 OUT_LOG=/var/log/${APP}/${APP}_out.log
 ERR_LOG=/var/log/${APP}/${APP}_err.log
 
-DAEMON_USER=webserviceuser
+DAEMON_USER=dbwebapieuser
 
 APP_CONFIG=/etc/${APP}.conf
 APP_HOME=/opt/${ORG}/${APP}

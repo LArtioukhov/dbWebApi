@@ -9,10 +9,9 @@
     </appender>
 
     <!-- Log levels available OFF, ERROR, WARN, INFO, DEBUG, TRACE and ALL. -->
-    <logger name="org.mongodb.driver.cluster" level="INFO" />
-    <logger name="org.mongodb.driver.protocol.command" level="INFO" />
+    <logger name="org.mongodb.driver" level="WARN" />
 
-    <root level="DEBUG">
+    <root level="WARN">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
