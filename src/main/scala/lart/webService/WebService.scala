@@ -17,6 +17,7 @@ object WebService extends WebServiceLifecycle {
       appLogger.info(s"Starting $appName daemon")
       started = true
       bindingFuture = http.bindAndHandle(WebServiceInit.route, defaultHost, defaultPort)
+      appLogger.info(s"Web service $appName started")
     }
   }
 
