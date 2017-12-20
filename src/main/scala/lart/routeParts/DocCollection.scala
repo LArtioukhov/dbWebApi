@@ -13,10 +13,14 @@ import lart.dbPrimitives.CollectionConnector
 
 class DocCollection(collectionConnector: CollectionConnector) extends WebServicePart {
 
-  private def dbResponseProcessing(response: Future[String]): Route =
+  private def dbResponseProcessing(response: Future[String],
+                                   ifEmptyNotFound: Boolean = false,
+                                   notFoundMessage: String = ""): Route =
     onComplete(response) {
       case Success(str) ⇒
-        complete(OK, HttpEntity(ContentTypes.`application/json`, str))
+        if (ifEmptyNotFound && str == "")
+          complete(NotFound, HttpEntity(ContentTypes.`application/json`, notFoundMessage))
+        else complete(OK, HttpEntity(ContentTypes.`application/json`, str))
       case Failure(ex) ⇒ complete(InternalServerError, ex.getMessage)
     }
 
@@ -37,7 +41,9 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
       }
     } ~ path(collectionConnector.collectionName / Segment) { id ⇒
       get { //get document by Id
-        dbResponseProcessing(collectionConnector.docById(id))
+        dbResponseProcessing(collectionConnector.docById(id),
+                             ifEmptyNotFound = true,
+                             s"""{"result":404,"message":"Document with Id : $id not found"}""")
       } ~ put { //update document
         entity(as[String]) { doc ⇒
           dbResponseProcessing(collectionConnector.updateDoc(id, doc))
