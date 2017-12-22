@@ -25,7 +25,7 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
     }
 
   private def methodNotAllowed = {
-    complete(MethodNotAllowed, appName + " API: Unsupported request")
+    complete(MethodNotAllowed, appName + """{"result":405,"message":"Not supported method" """)
   }
 
   override def RouteGenerator: Route =
@@ -37,7 +37,9 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
           entity(as[String]) { newDocString ⇒
             dbResponseProcessing(collectionConnector.newDoc(newDocString))
           }
-        } ~ (put | delete) { methodNotAllowed }
+        } ~ (put | delete) {
+          methodNotAllowed
+        }
       }
     } ~ path(collectionConnector.collectionName / Segment) { id ⇒
       get { //get document by Id
