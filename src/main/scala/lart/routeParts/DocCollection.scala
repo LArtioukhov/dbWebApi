@@ -21,11 +21,18 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
         if (ifEmptyNotFound && str == "")
           complete(NotFound, HttpEntity(ContentTypes.`application/json`, notFoundMessage))
         else complete(OK, HttpEntity(ContentTypes.`application/json`, str))
-      case Failure(ex) ⇒ complete(InternalServerError, ex.getMessage)
+      case Failure(ex) ⇒
+        complete(
+          InternalServerError,
+          HttpEntity(ContentTypes.`application/json`,
+                     s"""{"application":"$appName","result":405,"message":"${ex.getMessage}"}"""))
     }
 
   private def methodNotAllowed = {
-    complete(MethodNotAllowed, appName + """{"result":405,"message":"Not supported method" """)
+    complete(
+      MethodNotAllowed,
+      HttpEntity(ContentTypes.`application/json`,
+                 s"""{"application":"$appName","result":405,"message":"Not supported method"}"""))
   }
 
   override def RouteGenerator: Route =
@@ -43,9 +50,10 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
       }
     } ~ path(collectionConnector.collectionName / Segment) { id ⇒
       get { //get document by Id
-        dbResponseProcessing(collectionConnector.docById(id),
-                             ifEmptyNotFound = true,
-                             s"""{"result":404,"message":"Document with Id : $id not found"}""")
+        dbResponseProcessing(
+          collectionConnector.docById(id),
+          ifEmptyNotFound = true,
+          s"""{"application":"$appName","result":404,"message":"Document with Id : $id not found"}""")
       } ~ put { //update document
         entity(as[String]) { doc ⇒
           dbResponseProcessing(collectionConnector.updateDoc(id, doc))
