@@ -24,8 +24,10 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
       case Failure(ex) ⇒
         complete(
           InternalServerError,
-          HttpEntity(ContentTypes.`application/json`,
-                     s"""{"application":"$appName","result":405,"message":"${ex.getMessage}"}"""))
+          HttpEntity(
+            ContentTypes.`application/json`,
+            s"""{"application":"$appName","result":${InternalServerError.intValue},"message":"${ex.getMessage}"}""")
+        )
     }
 
   private def methodNotAllowed = {
@@ -37,16 +39,18 @@ class DocCollection(collectionConnector: CollectionConnector) extends WebService
 
   override def RouteGenerator: Route =
     path(collectionConnector.collectionName) {
-      parameters('sP.as[Int] ? 0, 'aP.as[Int] ? 40, 'fltr.as[String] ? "{}") { (sP, aP, fltr) ⇒
-        get { //get list of documents
-          dbResponseProcessing(collectionConnector.docList(sP, aP, fltr))
-        } ~ post { // create new document
-          entity(as[String]) { newDocString ⇒
-            dbResponseProcessing(collectionConnector.newDoc(newDocString))
+      parameters('sP.as[Int] ? 0, 'aP.as[Int] ? 40, 'fltr.as[String] ? "{}", 'prj.?) {
+        (startPosition, amountOnPage, filter, projection) ⇒
+          get { //get list of documents
+            dbResponseProcessing(
+              collectionConnector.docList(startPosition, amountOnPage, filter, projection))
+          } ~ post { // create new document
+            entity(as[String]) { newDocString ⇒
+              dbResponseProcessing(collectionConnector.newDoc(newDocString))
+            }
+          } ~ (put | delete) {
+            methodNotAllowed
           }
-        } ~ (put | delete) {
-          methodNotAllowed
-        }
       }
     } ~ path(collectionConnector.collectionName / Segment) { id ⇒
       get { //get document by Id
