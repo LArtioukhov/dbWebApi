@@ -13,31 +13,51 @@ import lart.dbPrimitives.CollectionConnector
 
 class DocCollection(collectionConnector: CollectionConnector) extends WebServicePart {
 
-  private def dbResponseProcessing(response: Future[String]): Route =
+  private def dbResponseProcessing(response: Future[String],
+                                   ifEmptyNotFound: Boolean = false,
+                                   notFoundMessage: String = ""): Route =
     onComplete(response) {
       case Success(str) ⇒
-        complete(OK, HttpEntity(ContentTypes.`application/json`, str))
-      case Failure(ex) ⇒ complete(InternalServerError, ex.getMessage)
+        if (ifEmptyNotFound && str == "")
+          complete(NotFound, HttpEntity(ContentTypes.`application/json`, notFoundMessage))
+        else complete(OK, HttpEntity(ContentTypes.`application/json`, str))
+      case Failure(ex) ⇒
+        complete(
+          InternalServerError,
+          HttpEntity(
+            ContentTypes.`application/json`,
+            s"""{"application":"$appName","result":${InternalServerError.intValue},"message":"${ex.getMessage}"}""")
+        )
     }
 
   private def methodNotAllowed = {
-    complete(MethodNotAllowed, appName + " API: Unsupported request")
+    complete(
+      MethodNotAllowed,
+      HttpEntity(ContentTypes.`application/json`,
+                 s"""{"application":"$appName","result":405,"message":"Not supported method"}"""))
   }
 
   override def RouteGenerator: Route =
     path(collectionConnector.collectionName) {
-      parameters('sP.as[Int] ? 0, 'aP.as[Int] ? 40, 'fltr.as[String] ? "{}") { (sP, aP, fltr) ⇒
-        get { //get list of documents
-          dbResponseProcessing(collectionConnector.docList(sP, aP, fltr))
-        } ~ post { // create new document
-          entity(as[String]) { newDocString ⇒
-            dbResponseProcessing(collectionConnector.newDoc(newDocString))
+      parameters('sP.as[Int] ? 0, 'aP.as[Int] ? 40, 'fltr.as[String] ? "{}", 'prj.?) {
+        (startPosition, amountOnPage, filter, projection) ⇒
+          get { //get list of documents
+            dbResponseProcessing(
+              collectionConnector.docList(startPosition, amountOnPage, filter, projection))
+          } ~ post { // create new document
+            entity(as[String]) { newDocString ⇒
+              dbResponseProcessing(collectionConnector.newDoc(newDocString))
+            }
+          } ~ (put | delete) {
+            methodNotAllowed
           }
-        } ~ (put | delete) { methodNotAllowed }
       }
     } ~ path(collectionConnector.collectionName / Segment) { id ⇒
       get { //get document by Id
-        dbResponseProcessing(collectionConnector.docById(id))
+        dbResponseProcessing(
+          collectionConnector.docById(id),
+          ifEmptyNotFound = true,
+          s"""{"application":"$appName","result":404,"message":"Document with Id : $id not found"}""")
       } ~ put { //update document
         entity(as[String]) { doc ⇒
           dbResponseProcessing(collectionConnector.updateDoc(id, doc))

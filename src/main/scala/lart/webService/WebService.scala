@@ -14,15 +14,16 @@ object WebService extends WebServiceLifecycle {
 
   override def start(): Unit = {
     if (!started) {
-      appLogger.info(s"Starting $appName daemon")
+      appLogger.debug(s"Starting $appName daemon")
       started = true
       bindingFuture = http.bindAndHandle(WebServiceInit.route, defaultHost, defaultPort)
+      appLogger.info(s"The web service $appName is launched at http://$defaultHost:$defaultPort")
     }
   }
 
   override def stop(): Unit = {
     if (started) {
-      appLogger.info(s"Stopping $appName daemon")
+      appLogger.debug(s"Stopping $appName daemon")
       started = false
       http.shutdownAllConnectionPools()
       bindingFuture.flatMap(_.unbind()).onComplete(_ ⇒ actorSystem.terminate())
